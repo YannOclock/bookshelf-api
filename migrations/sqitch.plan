@@ -2,3 +2,4 @@
 %project=bookshelf
 
 init 2021-07-23T09:08:12Z Yann Guilloux <yann@oclock.io> # Création de la BDD bookshelf
+book_view 2021-07-23T12:35:54Z Yann Guilloux <yann@oclock.io> # ajout d'un vue pour la récupération des livres avec les id de genres et d'auteurs
