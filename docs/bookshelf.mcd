@@ -1,0 +1,11 @@
+édite, 1N ÉDITEUR, 11 LIVRE
+ÉDITEUR: nom, nationalité
+:
+
+LIVRE: référence, titre original, titre, résumé, année de parution, langue d'origine, nombre de page, image de la couverture
+a écrit, 1N AUTEUR, 1N LIVRE
+AUTEUR: reference, prénom, nom, nationalité, date de naissance, date de mort
+
+contient, 0N GENRE, 1N LIVRE
+GENRE: libellé
+:

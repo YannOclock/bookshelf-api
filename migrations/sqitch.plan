@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=bookshelf
+
+init 2021-07-23T09:08:12Z Yann Guilloux <yann@oclock.io> # Création de la BDD bookshelf
