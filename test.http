@@ -1,0 +1,8 @@
+### API error 404
+GET http://localhost:3000/api/sqdqsd
+
+### get all books
+GET http://localhost:3000/api/books
+
+### get on book
+GET http://localhost:3000/api/books/1

@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+console.log(process.env);
+
 const express = require('express');
 const apiRouter = require('./app/routers/api');
 const websiteRouter = require('./app/routers/website');
