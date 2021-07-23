@@ -64,14 +64,16 @@ CREATE TABLE "book_has_author" (
     "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "book_id" int NOT NULL REFERENCES "book"("id"),
     "author_id" int NOT NULL REFERENCES "author"("id"),
-    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now()
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+    UNIQUE ("book_id","author_id")
 );
 
 CREATE TABLE "book_has_genre" (
     "id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "book_id" int NOT NULL REFERENCES "book"("id"),
     "genre_id" int NOT NULL REFERENCES "genre"("id"),
-    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now()
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT now(),
+    UNIQUE ("book_id","genre_id")
 );
 
 COMMIT;
