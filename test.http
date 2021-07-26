@@ -22,3 +22,36 @@ Content-Type: application/json
     "cover": "http://image.cover.com/tale.jpg",
     "publisher_id": 1
 }
+
+### update book
+PUT http://localhost:3000/api/books/12
+Content-Type: application/json
+
+{
+    "isbn": "9781234567899",
+    "original_title": "the handmaid's tale",
+    "title": "La servante écarlante",
+    "excerpt": "La servante écarlante n'était pas bleu mais rouge",
+    "publication_date": 1985,
+    "language": "FR",
+    "page_count": "300",
+    "cover": "http://image.cover.com/tale.jpg",
+    "publisher_id": 1
+}
+
+
+### update book qui marche pas
+PUT http://localhost:3000/api/books/14
+Content-Type: application/json
+
+{
+    "isbn": "9781234567899",
+    "original_title": "the handmaid's tale",
+    "title": "La servante écarlante",
+    "excerpt": "La servante écarlante n'était pas bleu mais rouge",
+    "publication_date": 1985,
+    "language": "FR",
+    "page_count": "300",
+    "cover": "http://image.cover.com/tale.jpg",
+    "publisher_id": 1
+}

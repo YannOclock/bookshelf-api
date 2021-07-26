@@ -10,7 +10,8 @@ router.route('/books')
     .post(bookController.add);
 
 router.route('/books/:id(\\d+)')
-    .get(bookController.book);
+    .get(bookController.book)
+    .put(bookController.update);
 
 router.use(apiController.notFoundResource);
 

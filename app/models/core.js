@@ -8,11 +8,15 @@ class CoreModel {
 
     constructor(data) {
         this.id = data.id;
+        this.setData(data);
+        this.created_at = data.created_at;
+        this.updated_at = data.updated_at;
+    }
+
+    setData(data){
         for (const field of this.constructor.fields) {
             this[field] = data[field];
         }
-        this.created_at = data.created_at;
-        this.updated_at = data.updated_at;
     }
 
     /**
@@ -46,43 +50,45 @@ class CoreModel {
 
     }
 
-    async insert() {
-        /*
-        const preparedQuery = {
-            text: `
-                INSERT INTO 
-                ${this.constructor.tableName} (${this.constructor.fields.join(',')}) 
-                VALUES(
-                    ${this.constructor.fields.map(
-                        //(_, index) => `$${index++}`
-                        (_, index) => '$' + index++
-                    ).join(',')}
-                )
-                RETURNING *
-            `,
-            // On ne peut pas se contenter d'envoyer this
-            // 1. on n'est pas assurer de l'ordre des propriété
-            // 2. il pourrait y avoir une ou plusieurs propriétés qui ne sont pas a inséré en BDD
-            value: this.constructor.fields.map(field => this[field])
-        };
+    /**
+     * Insert or update instance in database
+     * @returns {object}
+     */
+    async save() {
 
-        console.log(preparedQuery);
-        */
+        let action;
+
+        if (this.id) {
+            action = 'update';
+        } else {
+            action = 'insert';
+        }
 
         const preparedQuery = {
-            text: `SELECT * FROM insert_${this.constructor.tableName}($1::json)`,
+            text: `SELECT * FROM ${action}_${this.constructor.tableName}($1::json)`,
             values: [this]
         }
 
-        console.log(this);
-
         const result = await client.query(preparedQuery);
 
-        return result.rows[0];
+        this.setData(result.rows[0]);
+
+        return this;
 
     }
 
+    /**
+     * Delete from database
+     * @param {number} id 
+     */
+    async delete(id) {
+        const preparedQuery = {
+            text: `SELECT delete_${this.constructor.tableName}($1)`,
+            values: [id]
+        }
 
+        await client.query(preparedQuery);
+    }
 
 }
 

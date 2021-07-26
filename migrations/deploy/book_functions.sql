@@ -16,7 +16,7 @@ CREATE FUNCTION get_book(input_id int) RETURNS book_with_genre_and_author AS $$
 $$ LANGUAGE SQL;
 
 -- ajouter un livres
-CREATE FUNCTION insert_book(book json) RETURNS book AS $$
+CREATE FUNCTION insert_book(bookInput json) RETURNS book AS $$
     INSERT INTO book 
     (
         "isbn", 
@@ -30,22 +30,41 @@ CREATE FUNCTION insert_book(book json) RETURNS book AS $$
         "publisher_id"
     ) VALUES 
     (
-        book->>'isbn',
-        book->>'original_title',
-        book->>'title',
-        book->>'excerpt',
-        (book->>'publication_year')::int,
-        book->>'language',
-        (book->>'page_count')::int,
-        book->>'cover',
-        (book->>'publisher_id')::int
+        bookInput->>'isbn',
+        bookInput->>'original_title',
+        bookInput->>'title',
+        bookInput->>'excerpt',
+        (bookInput->>'publication_year')::int,
+        bookInput->>'language',
+        (bookInput->>'page_count')::int,
+        bookInput->>'cover',
+        (bookInput->>'publisher_id')::int
 
     )
 	RETURNING *
 $$ LANGUAGE SQL;
 
 -- modifier un livre
+CREATE FUNCTION update_book(bookInput json) RETURNS book AS $$
+    UPDATE book 
+    SET
+    "isbn" = bookInput->>'isbn', 
+    "original_title" = bookInput->>'original_title', 
+    "title" = bookInput->>'title', 
+    "excerpt" = bookInput->>'excerpt', 
+    "publication_year" = (bookInput->>'publication_year')::int, 
+    "language" = bookInput->>'language', 
+    "page_count" = (bookInput->>'page_count')::int, 
+    "cover" = bookInput->>'cover', 
+    "publisher_id" = (bookInput->>'publisher_id')::int
+    WHERE id = (bookInput->>'id')::int
+	RETURNING *
+$$ LANGUAGE SQL;
 
 -- supprimer un livre
+-- Cas particulier du delete, il ne renvoi rien, mais une fonction en SQL doit TOUJOURS renvoyer quelque chose. Ici on renvoi du néant pour "hacker" la contrainte.
+CREATE FUNCTION delete_book(input_id int) RETURNS void AS $$
+    DELETE FROM book WHERE id = input_id
+$$ LANGUAGE SQL;
 
 COMMIT;
