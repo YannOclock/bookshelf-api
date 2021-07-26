@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "node ."
+    "start": "node .",
+    "devinstall": "createdb -U postgres bookshelf;sqitch revert; sqitch deploy; psql -d bookshelf -f data/seeding.sql"
   },
   "repository": {
     "type": "git",
