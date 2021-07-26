@@ -23,6 +23,22 @@ Content-Type: application/json
     "publisher_id": 1
 }
 
+### add book qui ne passe pas Joi
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+    "isbn": "97812345678990",
+    "original_title": "the handmaid's tale",
+    "title": "La servante écarlante",
+    "excerpt": "La servante écarlante n'était pas bleu",
+    "publication_date": 1985,
+    "language": "FR",
+    "page_count": "300",
+    "cover": "http://image.cover.com/tale.jpg",
+    "publisher_id": 1
+}
+
 ### update inétgral book
 PUT http://localhost:3000/api/books/12
 Content-Type: application/json

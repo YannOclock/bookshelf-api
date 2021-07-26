@@ -12,7 +12,9 @@ const bookController = {
             response.json({ data: books });
         } catch (error) {
             console.error(error);
-            response.json({ data: [], error: `A server error occurred, pleaze try again later`});
+
+            // Dans le cas d'une erreur serveur on renvoi le code générique 500 insternal server error
+            response.status(500).json({ data: [], error: `A server error occurred, pleaze try again later`});
         }
     },
 
@@ -35,7 +37,7 @@ const bookController = {
             response.json({ data: book });
         } catch (error) {
             console.error(error);
-            response.json({ data: [], error: `A server error occurred, pleaze try again later`});
+            response.status(500).json({ data: [], error: `A server error occurred, pleaze try again later`});
         }
     },
 
@@ -52,10 +54,11 @@ const bookController = {
 
             const book = await newBook.save();
 
-            response.json({ data: book });
+            // Dans le cas d'une insertion, afin d'être le plus précise possible on utilise le code 201 Created
+            response.status(201).json({ data: book });
         } catch (error) {
             console.error(error);
-            response.json({ data: [], error: `A server error occurred, pleaze try again later`});
+            response.status(500).json({ data: [], error: `A server error occurred, pleaze try again later`});
         }
     },
 
@@ -86,7 +89,7 @@ const bookController = {
             response.json({ data: book });
         } catch (error) {
             console.error(error);
-            response.json({ data: [], error: `A server error occurred, pleaze try again later`});
+            response.status(500).json({ data: [], error: `A server error occurred, pleaze try again later`});
         }
     },
 
@@ -101,10 +104,11 @@ const bookController = {
 
             await book.delete();
 
-            response.json();
+            // DAns le cas d'une suppression on ne peut rien renvoyé donc, on précise qu'il ny a pas de contenu. Du côté du front afin de savoir si la suppression c'est bien déroulé, il suffira de tester le code http de retour.
+            response.status(204).json();
         } catch (error) {
             console.error(error);
-            response.json({ data: [], error: `A server error occurred, pleaze try again later`});
+            response.status(500).json({ data: [], error: `A server error occurred, pleaze try again later`});
         }
     }
 

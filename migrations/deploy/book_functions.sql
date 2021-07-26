@@ -11,9 +11,12 @@ CREATE FUNCTION get_book() RETURNS SETOF book_with_genre_and_author AS $$
 $$ LANGUAGE SQL;
 
 -- récupérer un livre
+-- Le mot clé STRICT permet de ne même pas exécuté les instruction de la fun tion si jamais les arguments fournis ne correspondent pas au parmètre définis.
+-- Il renvoi null directement. sous la forme du type de retour.
 CREATE FUNCTION get_book(input_id int) RETURNS book_with_genre_and_author AS $$
     SELECT * FROM book_with_genre_and_author WHERE id = input_id;
-$$ LANGUAGE SQL;
+$$ LANGUAGE SQL STRICT;
+-- Ua final dans l'appli on verifie sur le retour est null ou pas, pour savoir si cela c'est bien passé.
 
 -- ajouter un livres
 CREATE FUNCTION insert_book(bookInput json) RETURNS book AS $$
@@ -42,7 +45,7 @@ CREATE FUNCTION insert_book(bookInput json) RETURNS book AS $$
 
     )
 	RETURNING *
-$$ LANGUAGE SQL;
+$$ LANGUAGE SQL STRICT;
 
 -- modifier un livre
 CREATE FUNCTION update_book(bookInput json) RETURNS book AS $$
@@ -59,7 +62,7 @@ CREATE FUNCTION update_book(bookInput json) RETURNS book AS $$
     "publisher_id" = (bookInput->>'publisher_id')::int
     WHERE id = (bookInput->>'id')::int
 	RETURNING *
-$$ LANGUAGE SQL;
+$$ LANGUAGE SQL STRICT;
 
 -- supprimer un livre
 -- Cas particulier du delete, il ne renvoi rien, mais une fonction en SQL doit TOUJOURS renvoyer quelque chose. Ici on renvoi du néant pour "hacker" la contrainte.
