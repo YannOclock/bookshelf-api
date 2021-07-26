@@ -11,7 +11,9 @@ router.route('/books')
 
 router.route('/books/:id(\\d+)')
     .get(bookController.book)
-    .put(bookController.update);
+    .patch(bookController.update)
+    .put(bookController.update)
+    .delete(bookController.delete);
 
 router.use(apiController.notFoundResource);
 

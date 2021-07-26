@@ -13,9 +13,12 @@ class CoreModel {
         this.updated_at = data.updated_at;
     }
 
-    setData(data){
+    setData(data) {
         for (const field of this.constructor.fields) {
-            this[field] = data[field];
+            // Afin de pouvoir faire un patch et de ne pas écrasé les valeurs de propriété avec des valeurs non-existante provenant du controller (par extension du client) on conditionne l'écrasement de la valeur de la propriété
+            if (data[field]) {
+                this[field] = data[field];
+            }
         }
     }
 
@@ -45,6 +48,10 @@ class CoreModel {
     static async findOne(id) {
 
         const result = await client.query(`SELECT * FROM ${this.tableName} WHERE id = $1`, [id]);
+
+        if (!result.rows[0]) {
+            return null;
+        }
 
         return new this(result.rows[0]);
 
@@ -79,12 +86,11 @@ class CoreModel {
 
     /**
      * Delete from database
-     * @param {number} id 
      */
-    async delete(id) {
+    async delete() {
         const preparedQuery = {
             text: `SELECT delete_${this.constructor.tableName}($1)`,
-            values: [id]
+            values: [this.id]
         }
 
         await client.query(preparedQuery);

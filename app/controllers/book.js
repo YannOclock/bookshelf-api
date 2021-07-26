@@ -9,7 +9,6 @@ const bookController = {
     async allBookList(_, response) {
         try {
             const books = await BookModel.find();
-            console.log(books);
             response.json({ data: books });
         } catch (error) {
             console.error(error);
@@ -71,6 +70,10 @@ const bookController = {
 
             const book = await BookModel.findOne(request.params.id);
 
+            if(!book){
+                return next();
+            }
+
             book.setData(request.body);
 
             // Comme save renvoi l'instance on peut "chainer" les methode de l'AR
@@ -86,6 +89,24 @@ const bookController = {
             response.json({ data: [], error: `A server error occurred, pleaze try again later`});
         }
     },
+
+    async delete(request, response, next){
+        try {
+
+            const book = await BookModel.findOne(request.params.id);
+
+            if(!book){
+                return next();
+            }
+
+            await book.delete();
+
+            response.json();
+        } catch (error) {
+            console.error(error);
+            response.json({ data: [], error: `A server error occurred, pleaze try again later`});
+        }
+    }
 
 };
 

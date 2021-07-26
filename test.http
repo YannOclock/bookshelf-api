@@ -23,7 +23,7 @@ Content-Type: application/json
     "publisher_id": 1
 }
 
-### update book
+### update inétgral book
 PUT http://localhost:3000/api/books/12
 Content-Type: application/json
 
@@ -37,6 +37,14 @@ Content-Type: application/json
     "page_count": "300",
     "cover": "http://image.cover.com/tale.jpg",
     "publisher_id": 1
+}
+
+### update partiel book
+PATCH http://localhost:3000/api/books/12
+Content-Type: application/json
+
+{
+    "excerpt": "La servante écarlante n'était pas bleu mais carmin"
 }
 
 
@@ -55,3 +63,6 @@ Content-Type: application/json
     "cover": "http://image.cover.com/tale.jpg",
     "publisher_id": 1
 }
+
+### delete book
+DELETE http://localhost:3000/api/books/1
